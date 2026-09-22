@@ -36,6 +36,9 @@ class AmountTests(unittest.TestCase):
     def test_discount_full(self):
         self.assertEqual(apply_discount(101, 100), 0)
 
+    def test_discount_large_integer(self):
+        self.assertEqual(apply_discount(10**40 + 1, 50), 5 * 10**39 + 1)
+
     def test_discount_rejects_invalid_percent(self):
         with self.assertRaises(ValueError):
             apply_discount(100, 101)

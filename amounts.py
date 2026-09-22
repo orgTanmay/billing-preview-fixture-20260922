@@ -32,5 +32,4 @@ def apply_discount(total_cents, percent):
         raise ValueError("total must be a non-negative integer")
     if isinstance(percent, bool) or not isinstance(percent, int) or not 0 <= percent <= 100:
         raise ValueError("percent must be an integer between zero and one hundred")
-    discounted = Decimal(total_cents) * Decimal(100 - percent) / Decimal(100)
-    return int(discounted.quantize(Decimal("1"), rounding=ROUND_HALF_UP))
+    return (total_cents * (100 - percent) + 50) // 100
