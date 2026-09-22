@@ -24,3 +24,13 @@ def split_evenly(total_cents, people):
         raise ValueError("people must be a positive integer")
     quotient, remainder = divmod(total_cents, people)
     return [quotient + (index < remainder) for index in range(people)]
+
+
+def apply_discount(total_cents, percent):
+    """Return integer cents after a whole-number percentage discount."""
+    if isinstance(total_cents, bool) or not isinstance(total_cents, int) or total_cents < 0:
+        raise ValueError("total must be a non-negative integer")
+    if isinstance(percent, bool) or not isinstance(percent, int) or not 0 <= percent <= 100:
+        raise ValueError("percent must be an integer between zero and one hundred")
+    discounted_hundredths = total_cents * (100 - percent)
+    return (discounted_hundredths + 50) // 100
