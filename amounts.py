@@ -32,4 +32,5 @@ def apply_discount(total_cents, percent):
         raise ValueError("total must be a non-negative integer")
     if isinstance(percent, bool) or not isinstance(percent, int) or not 0 <= percent <= 100:
         raise ValueError("percent must be an integer between zero and one hundred")
-    return (total_cents * (100 - percent) + 50) // 100
+    discounted_hundredths = total_cents * (100 - percent)
+    return (discounted_hundredths + 50) // 100
