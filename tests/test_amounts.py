@@ -1,7 +1,7 @@
 import unittest
 from decimal import Decimal
 
-from amounts import split_evenly, subtotal
+from amounts import apply_discount, split_evenly, subtotal
 
 
 class AmountTests(unittest.TestCase):
@@ -25,3 +25,13 @@ class AmountTests(unittest.TestCase):
     def test_invalid_people(self):
         with self.assertRaises(ValueError):
             split_evenly(100, 0)
+
+    def test_discount_rounding(self):
+        self.assertEqual(apply_discount(101, 50), 51)
+
+    def test_discount_full(self):
+        self.assertEqual(apply_discount(101, 100), 0)
+
+    def test_discount_rejects_invalid_percent(self):
+        with self.assertRaises(ValueError):
+            apply_discount(100, 101)
