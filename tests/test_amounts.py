@@ -2,6 +2,10 @@ import unittest
 from decimal import Decimal
 
 from amounts import apply_discount, split_evenly, subtotal
+from basis_points import calculate_fee
+from bounded_values import clamp
+from ceiling_ratio import containers_needed
+from money_format import format_cents
 
 
 class AmountTests(unittest.TestCase):
@@ -35,3 +39,19 @@ class AmountTests(unittest.TestCase):
     def test_discount_rejects_invalid_percent(self):
         with self.assertRaises(ValueError):
             apply_discount(100, 101)
+
+    def test_basis_point_fee(self):
+        self.assertEqual(calculate_fee(100, 150), 2)
+        self.assertEqual(calculate_fee(100, 0), 0)
+
+    def test_container_count(self):
+        self.assertEqual(containers_needed(10, 3), 4)
+        self.assertEqual(containers_needed(0, 3), 0)
+
+    def test_money_text(self):
+        self.assertEqual(format_cents(-5), "-0.05")
+        self.assertEqual(format_cents(1200), "12.00")
+
+    def test_bounds(self):
+        self.assertEqual(clamp(-1, 0, 5), 0)
+        self.assertEqual(clamp(8, 0, 5), 5)
